@@ -31,7 +31,25 @@ for gitdir in /home/user/*/.git; do
 done
 
 # Claude 設定ファイルを配置
-rm -f ~/.claude/settings.json
+# ~/.claude/CLAUDE.md は環境初期化で上書きされないため従来通り配置する
 mkdir -p ~/.claude
 cp "$SCRIPT_DIR/home/CLAUDE.md" ~/.claude/CLAUDE.md
-cp "$SCRIPT_DIR/home/settings.local.json" ~/.claude/settings.json
+
+# ~/.claude/settings.json は Claude Code on the Web のセッション初期化で
+# 必ずデフォルトテンプレに上書きされるため使えない
+# （公式: "user-level settings don't carry over to cloud sessions"）。
+# 代わりに各リポジトリ配下の .claude/settings.local.json に配置する。
+# .claude/settings.local.json はプロジェクトスコープで読み込まれ、
+# かつ慣習的に git 管理外なので個人専用設定として機能する。
+for gitdir in /home/user/*/.git; do
+  if [ -d "$gitdir" ]; then
+    repo_dir="$(dirname "$gitdir")"
+    mkdir -p "$repo_dir/.claude"
+    cp "$SCRIPT_DIR/home/settings.local.json" "$repo_dir/.claude/settings.local.json"
+    # .gitignore に未登録のリポジトリで誤コミットしないよう
+    # .git/info/exclude（リポジトリ単位の個人 ignore）にも登録する
+    if ! grep -qxF '.claude/settings.local.json' "$gitdir/info/exclude" 2>/dev/null; then
+      echo '.claude/settings.local.json' >> "$gitdir/info/exclude"
+    fi
+  fi
+done
