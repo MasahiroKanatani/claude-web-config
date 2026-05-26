@@ -25,6 +25,8 @@ for gitdir in /home/user/*/.git; do
         git -C "$repo_dir" remote set-url origin "https://github.com/${github_path}.git"
       fi
     fi
+    git -C "$repo_dir" config user.name "${GH_NAME}"
+    git -C "$repo_dir" config user.email "${GH_EMAIL}"
   fi
 done
 
