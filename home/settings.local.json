@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "SessionStart":[
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /tmp/claude-web-config/startup.sh"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "mcp__github.*",
