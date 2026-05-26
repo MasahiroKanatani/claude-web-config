@@ -34,4 +34,4 @@ done
 rm -f ~/.claude/settings.json
 mkdir -p ~/.claude
 cp "$SCRIPT_DIR/home/CLAUDE.md" ~/.claude/CLAUDE.md
-cp "$SCRIPT_DIR/home/settings.local.json" ~/.claude/settings.local.json
+cp "$SCRIPT_DIR/home/settings.local.json" ~/.claude/settings.json
