@@ -20,6 +20,11 @@ for gitdir in /home/user/*/.git; do
   fi
 done
 
+# CWD（/home/user）で git config を引いたときにも正しいユーザー情報が見えるよう
+# グローバル設定にも反映する
+git config --global user.name "${GH_NAME}"
+git config --global user.email "${GH_EMAIL}"
+
 # /home/user/.claude（Claude プロセスの CWD project scope）の設定を再配置
 mkdir -p /home/user/.claude
 cp "$SCRIPT_DIR/home/CLAUDE.md" /home/user/.claude/CLAUDE.md
