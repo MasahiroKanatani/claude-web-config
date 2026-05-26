@@ -30,6 +30,11 @@ for gitdir in /home/user/*/.git; do
   fi
 done
 
+# CWD（/home/user）で git config を引いたときにも正しいユーザー情報が見えるよう
+# グローバル設定にも反映する
+git config --global user.name "${GH_NAME}"
+git config --global user.email "${GH_EMAIL}"
+
 # Claude 設定ファイルを配置
 # ~/.claude/CLAUDE.md は環境初期化で上書きされないため従来通り配置する
 mkdir -p ~/.claude
