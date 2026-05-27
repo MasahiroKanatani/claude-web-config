@@ -17,3 +17,39 @@
 
 - HEREDOC `<<'EOF'`、Write/Edit ツールの引数、Markdown 本文、JSON 文字列のいずれもバッククォートのエスケープは不要
 - 反射的に `\`` と書く癖を禁止。literal backtick が欲しいのは unquoted heredoc / ダブルクォート文字列のみ
+
+## 別リポ / 横展開タスクのルール
+
+別リポで作業またはサブエージェントへ作業を委譲するとき、開始前に **必ず** 以下を実施する。
+
+### 1. リポ固有の AI 設定を読み込む (mandatory)
+
+各リポは独自の運用ルールを持つ。自己流で進めず以下を尊重する:
+
+- `<repo>/CLAUDE.md` または `<repo>/.claude/CLAUDE.md` — 運用ルール、コミット規約、PR テンプレ、ブランチモデル
+- `<repo>/AGENTS.md` — マルチ AI ツール共通の指示書
+- `<repo>/.claude/rules/*.md` — 分野別ルール
+- `<repo>/.claude/agents/*.md` — 専用サブエージェント定義 (code-reviewer / security-reviewer / translator-* 等)。該当分野なら **これを優先使用**
+- `<repo>/.claude/commands/*.md` — 定型コマンド (pre-pr / reduce-code / sync-guide 等)。該当タスクなら使う
+- `<repo>/.claude/skills/*/SKILL.md` — リポ固有 Skill
+- `<repo>/.claude/hooks/*.sh` — リポ固有 hook
+- `<repo>/.claude/settings.json` — リポ固有 Claude 設定
+
+### 2. ブランチモデルの確認
+
+- 2 つ以上のリポを跨ぐ場合、着手前に各リポの default_branch を必ず gh api で取得する
+  - `for r in <repos>; do echo "$r: $(gh api repos/<owner>/$r --jq .default_branch)"; done`
+- サブエージェントへのプロンプトに「target base: <default>」として明示
+- 「他リポの PR を参考に」と指示するときは本文構造のみ。base/head は対象リポの default に合わせる
+
+### 3. 禁止事項
+
+- `git pull origin main` のような **決め打ち pull**
+  - clone 直後なら不要
+  - 必要なら `git pull origin "$(git rev-parse --abbrev-ref origin/HEAD | sed 's@^origin/@@')"` で動的解決
+- `gh pr create --base main` のような **決め打ち base 指定**
+- サブエージェントに「クローンして修正」だけ指示し、リポの CLAUDE.md / .claude を読ませない指示
+
+### 4. 横展開タスクは `cross-repo-dispatch` Skill を起動する
+
+複数リポを跨ぐタスクは必ず Skill `cross-repo-dispatch` を呼び、上記チェックリストを機械的に実行する。
