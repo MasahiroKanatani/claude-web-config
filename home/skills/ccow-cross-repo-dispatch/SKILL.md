@@ -1,5 +1,5 @@
 ---
-name: cross-repo-dispatch
+name: ccow-cross-repo-dispatch
 description: 2つ以上の GitHub リポジトリへ並行/連続して変更を入れる場合に必ず起動する。横展開、複数リポへの監査結果反映、同じ修正の複数プロジェクト適用、複数リポへのサブエージェント並列ディスパッチ等。各リポの default_branch とリポ固有 AI 設定 (CLAUDE.md / .claude/*) を確認しサブエージェントプロンプトに明示することで、ベース不一致や規約違反による誤った PR を防ぐ。
 allowed-tools: Bash(gh:*), Bash(echo:*), Bash(for:*), Bash(printf:*), Bash(find:*), Bash(cat:*), Bash(ls:*), Bash(basename:*), Bash(sed:*), Read(**)
 ---
