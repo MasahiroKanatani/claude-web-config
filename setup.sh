@@ -50,3 +50,11 @@ cp "$SCRIPT_DIR/home/CLAUDE.md" ~/.claude/CLAUDE.md
 mkdir -p /home/user/.claude
 cp "$SCRIPT_DIR/home/CLAUDE.md" /home/user/.claude/CLAUDE.md
 cp "$SCRIPT_DIR/home/settings.local.json" /home/user/.claude/settings.json
+
+# Skill 配布 (~/.claude/skills と project scope の両方)
+for target in ~/.claude/skills /home/user/.claude/skills; do
+  mkdir -p "$target"
+  if [ -d "$SCRIPT_DIR/home/skills" ]; then
+    cp -r "$SCRIPT_DIR/home/skills/." "$target/"
+  fi
+done
