@@ -50,6 +50,6 @@
 - `gh pr create --base main` のような **決め打ち base 指定**
 - サブエージェントに「クローンして修正」だけ指示し、リポの CLAUDE.md / .claude を読ませない指示
 
-### 4. 横展開タスクは `cross-repo-dispatch` Skill を起動する
+### 4. 横展開タスクは `ccow-cross-repo-dispatch` Skill を起動する
 
-複数リポを跨ぐタスクは必ず Skill `cross-repo-dispatch` を呼び、上記チェックリストを機械的に実行する。
+複数リポを跨ぐタスクは必ず Skill `ccow-cross-repo-dispatch` を呼び、上記チェックリストを機械的に実行する。
