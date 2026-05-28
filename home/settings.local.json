@@ -29,6 +29,15 @@
             "command": "echo '❌ GitHub MCP の create_pull_request は禁止されています。代わりに /create-pr スキルを使用してください。' >&2; exit 2"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command // \"\"' | grep -qE 'gh pr (create|edit[^|]*--body)' && echo '[ccow] PR 本文を書く前に ccow-pr-body-style Skill を必ず参照すること。「概要」「変更内容」「やらないこと」では決まり文句や回りくどい言い回しを避け、差分で見えないこと (動機、判断ポイント、検証方法、影響範囲) を書く。' >&2; exit 0"
+          }
+        ]
       }
     ]
   }
