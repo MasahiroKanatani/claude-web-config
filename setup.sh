@@ -14,6 +14,12 @@ for npmrc in /home/user/*/.npmrc; do
   fi
 done
 
+# Codex CLI
+npm install -g @openai/codex || true
+if [ -n "${OPENAI_API_KEY:-}" ]; then
+  printenv OPENAI_API_KEY | codex login --with-api-key || true
+fi
+
 # git remote URL をプロキシ（127.0.0.1）から GitHub に変換して gh CLI が動作するようにする
 for gitdir in /home/user/*/.git; do
   if [ -d "$gitdir" ]; then
