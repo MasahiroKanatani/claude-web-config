@@ -20,6 +20,15 @@ if [ -n "${OPENAI_API_KEY:-}" ]; then
   printenv OPENAI_API_KEY | codex login --with-api-key || true
 fi
 
+# codex-plugin-cc（OpenAI 公式の Claude Code プラグイン）を非対話インストール。
+# committed な enabledPlugins/extraKnownMarketplaces 経由の自動インストールは
+# 既知の不具合があり fresh セッションで反映されないことがあるため CLI で明示的に入れる。
+# marketplace 名=openai-codex / プラグイン名=codex（リポの marketplace.json より）。
+if command -v claude >/dev/null 2>&1; then
+  claude plugin marketplace add openai/codex-plugin-cc || true
+  claude plugin install codex@openai-codex || true
+fi
+
 # git remote URL をプロキシ（127.0.0.1）から GitHub に変換して gh CLI が動作するようにする
 for gitdir in /home/user/*/.git; do
   if [ -d "$gitdir" ]; then
