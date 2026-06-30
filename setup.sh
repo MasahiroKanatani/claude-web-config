@@ -30,20 +30,20 @@ if command -v claude >/dev/null 2>&1; then
 fi
 
 # git remote URL をプロキシ（127.0.0.1）から GitHub に変換して gh CLI が動作するようにする
-for gitdir in /home/user/*/.git; do
-  if [ -d "$gitdir" ]; then
-    repo_dir="$(dirname "$gitdir")"
-    url="$(git -C "$repo_dir" remote get-url origin 2>/dev/null || true)"
-    if [ -n "$url" ]; then
-      github_path="$(echo "$url" | sed -n 's|.*127\.0\.0\.1.*/git/\(.*\)|\1|p')"
-      if [ -n "$github_path" ]; then
-        git -C "$repo_dir" remote set-url origin "https://github.com/${github_path}.git"
-      fi
-    fi
-    git -C "$repo_dir" config user.name "${GH_NAME}"
-    git -C "$repo_dir" config user.email "${GH_EMAIL}"
-  fi
-done
+# for gitdir in /home/user/*/.git; do
+#   if [ -d "$gitdir" ]; then
+#     repo_dir="$(dirname "$gitdir")"
+#     url="$(git -C "$repo_dir" remote get-url origin 2>/dev/null || true)"
+#     if [ -n "$url" ]; then
+#       github_path="$(echo "$url" | sed -n 's|.*127\.0\.0\.1.*/git/\(.*\)|\1|p')"
+#       if [ -n "$github_path" ]; then
+#         git -C "$repo_dir" remote set-url origin "https://github.com/${github_path}.git"
+#       fi
+#     fi
+#     git -C "$repo_dir" config user.name "${GH_NAME}"
+#     git -C "$repo_dir" config user.email "${GH_EMAIL}"
+#   fi
+# done
 
 # CWD（/home/user）で git config を引いたときにも正しいユーザー情報が見えるよう
 # グローバル設定にも反映する
