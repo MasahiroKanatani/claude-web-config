@@ -13,24 +13,6 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "mcp__github.*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'mcp__github は使用禁止です。代わりに gh CLI を使ってください。' >&2; exit 2"
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__github__create_pull_request",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '❌ GitHub MCP の create_pull_request は禁止されています。代わりに /create-pr スキルを使用してください。' >&2; exit 2"
-          }
-        ]
-      },
-      {
         "matcher": "Bash",
         "hooks": [
           {
